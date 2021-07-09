@@ -46,7 +46,7 @@ function SignInScreen(props: RegisterComponent) {
   return (
     <div>
       <h1>Välkommen!</h1>
-      <p>Welcome {firebaseAuth.currentUser?.displayName}! You are now signed-in!</p>
+      <p>{firebaseAuth.currentUser?.displayName}! You are now signed-in!</p>
       <button onClick={() => firebaseAuth.signOut()}>Sign-out</button>
     </div>
   );
