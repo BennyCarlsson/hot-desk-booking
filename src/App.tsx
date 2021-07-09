@@ -1,8 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import * as Firebase from './services/Firebase'
 
 function App() {
+  Firebase.initFirebase();
+
   return (
     <div className="App">
       <header className="App-header">
