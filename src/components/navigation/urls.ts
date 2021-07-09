@@ -1,0 +1,1 @@
+export const createFirstUserPage = '/register-origin-user'
