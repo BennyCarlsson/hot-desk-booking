@@ -34,7 +34,7 @@ function SignInScreen(props: RegisterComponent) {
       }
     });
     return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
-  }, []);
+  }, [props]);
 
   if (!isSignedIn) {
     return (
@@ -47,7 +47,7 @@ function SignInScreen(props: RegisterComponent) {
     <div>
       <h1>Välkommen!</h1>
       <p>Welcome {firebaseAuth.currentUser?.displayName}! You are now signed-in!</p>
-      <a onClick={() => firebaseAuth.signOut()}>Sign-out</a>
+      <button onClick={() => firebaseAuth.signOut()}>Sign-out</button>
     </div>
   );
 }
