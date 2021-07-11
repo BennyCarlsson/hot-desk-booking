@@ -1,26 +1,36 @@
 import { useEffect, useState } from 'react';
-import { fetchRooms, SaveNewDesk } from '../../services/Firebase';
+import { fetchRooms, RoomType, SaveNewDesk } from '../../services/Firebase';
 import { GridContainer, GridItem } from './styles';
 
 type RoomGridProps = {};
 type CurrentMarkedSquareType = { x: number; y: number };
+type DesksType = { [key: string]: {} };
 
 const RoomGrid = (props: RoomGridProps) => {
   const [currentMarkedSquare, setCurrentMarkedSquare] =
     useState<CurrentMarkedSquareType | null>(null);
+  const [desks, setDesks] = useState<DesksType>({});
   const columns = 25;
   const rows = 25;
 
   useEffect(() => {
-    fetchRooms();
-  });
+    const fetchData = async () => {
+      fetchRooms((room: RoomType) => {
+        let desksObj: DesksType = {};
+        Object.entries(room.objects).forEach(([key, val]) => {
+          desksObj[`${val.coordinates[0].x}:${val.coordinates[0].y}`] = {};
+          desksObj[`${val.coordinates[1].x}:${val.coordinates[1].y}`] = {};
+        });
+        setDesks(desksObj);
+      });
+    };
+    fetchData();
+  }, []);
 
   const calcIndex = (i: number, y: number) => rows * i + 1 + y;
 
   const handleOnClick = (x: number, y: number) => {
-    console.log(x, y);
     if (currentMarkedSquare && isNeighbourToCurrentMarkedSquare(x, y)) {
-      console.log('MATCH!');
       SaveNewDesk({
         id: `${currentMarkedSquare.x}:${currentMarkedSquare.y}`,
         coordinates: [
@@ -54,6 +64,9 @@ const RoomGrid = (props: RoomGridProps) => {
   const getClassName = (x: number, y: number) => {
     if (currentMarkedSquare && currentMarkedSquare.x === x && currentMarkedSquare.y === y) {
       return 'Mark';
+    }
+    if (desks[`${x}:${y}`]) {
+      return 'Desk';
     }
   };
 

@@ -21,4 +21,7 @@ export const GridItem = styled.div`
   &.Mark {
     background-color: #d9d9d9;
   }
+  &.Desk {
+    background-color: #fff67a;
+  }
 `;

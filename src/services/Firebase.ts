@@ -38,15 +38,23 @@ export const SaveNewDesk = (obj: NewDeskType) => {
       }
     });
 };
-export const fetchRooms = () => {
-  firestore
+
+export type RoomType = {
+  columnLength: number;
+  rowLength: number;
+  organizationId: string;
+  objects: { [key: string]: { coordinates: { x: number; y: number }[]; type: string } };
+};
+export const fetchRooms = (callBack: (room: RoomType) => void) => {
+  return firestore
     .collection('rooms')
-    .where('organisationId', '==', 'o9VDDxHbVJollu3gOHMf')
-    .get()
-    .then((querySnapshot) => {
+    .where('organizationId', '==', 'o9VDDxHbVJollu3gOHMf')
+    .onSnapshot((querySnapshot) => {
+      let data;
       querySnapshot.forEach((doc) => {
-        console.log(doc.data());
+        data = doc.data() as RoomType;
       });
+      callBack(data as unknown as RoomType);
     });
 };
 export const organizationStore = firestore.collection('organizations');
