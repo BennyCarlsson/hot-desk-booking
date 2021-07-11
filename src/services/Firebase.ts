@@ -22,7 +22,6 @@ export const firebaseApp: firebase.app.App = app;
 
 export const firebaseAuth = firebaseApp.auth();
 export const firestore = firebaseApp.firestore();
-export const organizationStore = firestore.collection('organizations');
 
 type NewDeskType = {
   id: string;
@@ -49,4 +48,9 @@ export const fetchRooms = () => {
         console.log(doc.data());
       });
     });
+};
+export const organizationStore = firestore.collection('organizations');
+
+export const fetchOrganization = async (id: string) => {
+  return await organizationStore.doc(id).get();
 };
