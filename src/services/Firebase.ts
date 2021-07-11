@@ -33,11 +33,9 @@ export const SaveNewDesk = (obj: NewDeskType) => {
     .collection('rooms')
     .doc('U0l8eaqvUPXijUQprZ5v')
     .update({
-      objects: {
-        [obj.id]: {
-          type: 'desktop',
-          coordinates: obj.coordinates
-        }
+      [`objects.${obj.id}`]: {
+        type: 'desktop',
+        coordinates: obj.coordinates
       }
     });
 };
